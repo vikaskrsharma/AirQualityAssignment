@@ -26,9 +26,12 @@ scaler = MinMaxScaler()
 numeric_cols = ["PM2.5", "PM10", "NO2", "SO2", "CO", "O3"]
 df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
 
+print(df)
+
 # Encode categorical features (e.g., City)
 encoder = LabelEncoder()
 df["City"] = encoder.fit_transform(df["City"])
+df["AQI_Bucket"] = encoder.fit_transform(df["AQI_Bucket"])
 
 # Save preprocessed data
 df.to_csv("../data/air_quality_cleaned.csv", index=False)
