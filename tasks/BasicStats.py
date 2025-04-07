@@ -1,21 +1,15 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import logging
 
 # Configure standard logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Load the dataset
-df = pd.read_csv("../data/air_quality_city_day.csv")
+filepath = "./data/air_quality_city_day.csv";
+df = pd.read_csv(filepath)
 logger.info("Dataset loaded successfully.")
-logger.info(f"DataFrame head:\n{df.head()}")
-
-# Convert date columns to datetime format
+ # Convert date columns to datetime format
 df['Date'] = pd.to_datetime(df['Date'], errors='coerce', dayfirst=True)
-logger.info("Converted date columns to datetime format.")
 
 # Summary statistics
 logger.info("Summary Statistics:")

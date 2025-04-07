@@ -9,13 +9,33 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from prefect import flow, task
 from datetime import datetime
 
+
 # Define Prefect tasks for modular processing
 
 @task
 def load_data(filepath: str) -> pd.DataFrame:
     """Load dataset from CSV file"""
     df = pd.read_csv(filepath)
+    print("Dataset loaded successfully.")
+    # print(f"DataFrame head:\n{df.head()}")
     return df
+
+@task
+def data_basic_stat(df: pd.DataFrame):
+    # Convert date columns to datetime format
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce', dayfirst=True)
+
+    # Summary statistics
+    print("Summary Statistics:")
+    print(f"\n{df.describe(include='all')}")
+
+    # Checking for missing values
+    print("Missing Values:")
+    print(f"\n{df.isnull().sum()}")
+
+    # Data type information
+    print("Data Types:")
+    print(f"\n{df.dtypes}")
 
 @task
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -93,11 +113,12 @@ def evaluate_models(models, X_test, y_test):
 def air_quality_pipeline(filepath: str):
     """Prefect flow to execute the full pipeline"""
     df = load_data(filepath)
-    df = preprocess_data(df)
-    perform_eda(df)
-    X_train, X_test, y_train, y_test = split_data(df)
-    models = train_models(X_train, y_train)
-    evaluate_models(models, X_test, y_test)
+    data_basic_stat(df)
+    # df = preprocess_data(df)
+    # perform_eda(df)
+    # X_train, X_test, y_train, y_test = split_data(df)
+    # models = train_models(X_train, y_train)
+    # evaluate_models(models, X_test, y_test)
 
 # Run the pipeline with the dataset file
 if __name__ == "__main__":
