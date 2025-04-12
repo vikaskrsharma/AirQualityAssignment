@@ -1,4 +1,5 @@
 from prefect import flow, task, get_run_logger
+import pandas as pd
 import subprocess
 import os
 
@@ -7,7 +8,7 @@ def run_task(script_name):
     logger = get_run_logger()
     
     # Define the full path to the script based on the project structure
-    script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), './tasks', script_name))
+    script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../tasks', script_name))
     logger.info(script_path)
     try:
         # Run the external Python script using its full path
@@ -28,9 +29,8 @@ def run_task(script_name):
 
     return 0
 
-
 @flow
-def main_flow():
+def air_quality_data_pipeline_flow():
     # Run tasks sequentially and capture the results
    data1 = run_task("BasicStats.py")
    data2 = run_task("PreProcess.py", wait_for=[data1])
@@ -38,8 +38,8 @@ def main_flow():
 
 # To run 
 if __name__ == "__main__":
-    # main_flow.serve(name="covid-ds-workflow",
-    #                   tags=["covid datascience project workflow"],
-    #                   parameters={},
-    #                   interval=120) #2 minutes
-    main_flow()
+    air_quality_data_pipeline_flow.serve(name="air-quality-pipeline-workflow",
+                      tags=["air quality test workflow"],
+                      parameters={},
+                      interval=180) #3mins
+ 

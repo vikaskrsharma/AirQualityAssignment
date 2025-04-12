@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-filepath = "./data/air_quality_city_day.csv";
+filepath = "../data/air_quality_city_day.csv";
 df = pd.read_csv(filepath)
 logger.info("Dataset loaded successfully.")
 
