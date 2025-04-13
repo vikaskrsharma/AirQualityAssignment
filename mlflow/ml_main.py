@@ -11,7 +11,7 @@
 # Import necessary libraries
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, classification_report, precision_score, recall_score, f1_score, confusion_matrix
 import mlflow
 import mlflow.sklearn
@@ -40,14 +40,20 @@ def preprocess_data(data):
     return X, y
 
 # Function for training the model
-def train_model(X_train, y_train, max_depth=3, n_estimators=100):
+def train_model(X_train, y_train,model_type="random_forest", max_depth=3, n_estimators=100,):
     # Initialize the classifier
-    clf = RandomForestClassifier(max_depth=max_depth, n_estimators=n_estimators, random_state=42)
+    # clf = RandomForestClassifier(max_depth=max_depth, n_estimators=n_estimators, random_state=42)
+    if model_type == "random_forest":
+        model = RandomForestClassifier(max_depth=max_depth, n_estimators=n_estimators, random_state=42)
+    elif model_type == "gradient_boosting":
+        model = GradientBoostingClassifier(max_depth=max_depth, n_estimators=n_estimators, random_state=42)
+    else:
+        raise ValueError(f"Unsupported model type: {model_type}")
 
     # Train the model
-    clf.fit(X_train, y_train)
+    model.fit(X_train, y_train)
 
-    return clf
+    return model
 
 # Function to evaluate the model
 def evaluate_model(model, X_test, y_test):
@@ -63,7 +69,7 @@ def evaluate_model(model, X_test, y_test):
     print(classification_report(y_test, y_pred))
 
 # Function to log model and system metrics to MLflow
-def log_to_mlflow(model, X_train, X_test, y_train, y_test):
+def log_to_mlflow(model, X_train, X_test, y_train, y_test, model_type="random_forest"):
     with mlflow.start_run():
         # Log hyper parameters using in Random Forest Algorithm
         mlflow.log_param("max_depth", model.max_depth)
@@ -103,7 +109,7 @@ def log_to_mlflow(model, X_train, X_test, y_train, y_test):
         execution_time = {}  # Dictionary to store execution times for different stages
         # Example: Execution time for training the model
         start_time = time.time()
-        model = train_model(X_train, y_train)
+        model = train_model(X_train, y_train, model_type)
         end_time = time.time()
         execution_time["system_model_training"] = end_time - start_time
 
@@ -128,10 +134,16 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     # Train the model
-    model = train_model(X_train, y_train)
-
+    randomForestModel = train_model(X_train, y_train, "random_forest")
     # Evaluate and log to MLflow
-    log_to_mlflow(model, X_train, X_test, y_train, y_test)
+    log_to_mlflow(randomForestModel, X_train, X_test, y_train, y_test, "random_forest")
+
+     # Split the data into training and testing sets
+    X_train1, X_test1, y_train1, y_test1 = train_test_split(X, y, test_size=0.4, random_state=42)
+
+    #GradientBoostingClassifier Model
+    gradientBoostingModel = train_model(X_train, y_train, "gradient_boosting")
+    log_to_mlflow(gradientBoostingModel, X_train1, X_test1, y_train1, y_test1, "gradient_boosting")
 
 if __name__ == "__main__":
     main()

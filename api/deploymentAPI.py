@@ -5,10 +5,10 @@
 import requests
 
 # Replace these variables with your actual Prefect Cloud credentials
-PREFECT_API_KEY = "pnu_TxzjePDMkiA0EfGBQu1CnpQwJwhppK2hNRsn"  # Your Prefect Cloud API key
-ACCOUNT_ID = "d416c2a3-6a1c-4723-b9ef-8a8a2afba338"  # Your Prefect Cloud Account ID
-WORKSPACE_ID = "ffb62f8a-0c79-4f98-a3fd-15d20c0197c1"  # Your Prefect Cloud Workspace ID
-DEPLOYMENT_ID = "48aac213-0488-43f5-9f1c-1d44f5298f85"  # workflow.py deployment
+PREFECT_API_KEY = "pnu_R0dueb4K5KA2u0g87oSELGhFUKCC5L2Gs2P5"  # Your Prefect Cloud API key
+ACCOUNT_ID = "d684a211-4820-4435-aed4-19f3074ca69c"  # Your Prefect Cloud Account ID
+WORKSPACE_ID = "0d6e4bdf-51f1-40df-961b-ec4ce037971a"  # Your Prefect Cloud Workspace ID
+DEPLOYMENT_ID = "ad234066-fe02-449d-92ab-d0b314d42a76"  # workflow.py deployment
 
 # Correct API URL to get deployment details
 PREFECT_API_URL = f"https://api.prefect.cloud/api/accounts/{ACCOUNT_ID}/workspaces/{WORKSPACE_ID}/deployments/{DEPLOYMENT_ID}"
