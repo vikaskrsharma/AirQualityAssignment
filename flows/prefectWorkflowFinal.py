@@ -12,7 +12,7 @@ def run_task(script_name):
     logger.info(script_path)
     try:
         # Run the external Python script using its full path
-        result = subprocess.run(['python3', script_path], capture_output=True, text=True)
+        result = subprocess.run(['python', script_path], capture_output=True, text=True)
         
         # Log both stdout and stderr
         if result.returncode == 0:

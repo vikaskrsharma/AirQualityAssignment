@@ -8,7 +8,7 @@ import requests
 PREFECT_API_KEY = "pnu_R0dueb4K5KA2u0g87oSELGhFUKCC5L2Gs2P5"  # Your Prefect Cloud API key
 ACCOUNT_ID = "d684a211-4820-4435-aed4-19f3074ca69c"  # Your Prefect Cloud Account ID
 WORKSPACE_ID = "0d6e4bdf-51f1-40df-961b-ec4ce037971a"  # Your Prefect Cloud Workspace ID
-FLOW_ID = "61ec43b9-ba3e-418b-a0cb-81d9bc85e2ed"  # Your Flow ID for workflow.py
+FLOW_ID = "f811929d-c2eb-4bc7-ad16-85b3ce73488d"  # Your Flow ID for workflow.py
 
 # Correct API URL to get flow details
 PREFECT_API_URL = f"https://api.prefect.cloud/api/accounts/{ACCOUNT_ID}/workspaces/{WORKSPACE_ID}/flows/{FLOW_ID}"
